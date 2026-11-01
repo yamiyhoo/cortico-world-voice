@@ -1,0 +1,49 @@
+{
+  "name": "cortico-world-voice",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Cortico World: let the bot speak on this computer (offline Windows SAPI), listen to audio files, and measure or shift the pitch of a recording. Optional local GPT-SoVITS voice.",
+  "license": "MIT",
+  "author": { "name": "yamiyhoo" },
+  "os": ["win32"],
+  "engines": { "node": ">=22" },
+  "main": "./index.js",
+  "exports": { ".": "./index.js" },
+  "files": [
+    "index.js",
+    "asr.js",
+    "gptsovits.js",
+    "pitch.js",
+    "pitch.py",
+    "describe.json",
+    "README.md"
+  ],
+  "keywords": [
+    "cortico-world",
+    "cortico",
+    "voice",
+    "tts",
+    "speech",
+    "sapi",
+    "asr",
+    "pitch",
+    "local"
+  ],
+  "cortico": {
+    "kind": "world",
+    "api": 6,
+    "displayName": "语音",
+    "describe": "describe.json",
+    "tags": ["voice", "local", "external-setup"],
+    "locales": {
+      "zh": {
+        "displayName": "语音",
+        "description": "让桌宠在本机出声（Windows 自带 SAPI，离线）；也能把工作区里的音频转成文字、量音高、给录音变调。可选接本地 GPT-SoVITS 音色。"
+      },
+      "en": {
+        "displayName": "Voice",
+        "description": "Let the bot speak on this computer offline with the built-in SAPI voice; also transcribes audio files, measures pitch and shifts it. Optional local GPT-SoVITS voice."
+      }
+    }
+  }
+}

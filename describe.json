@@ -1,0 +1,141 @@
+{
+  "tools": [
+    {
+      "name": "voice_say",
+      "description": "Say something out loud on this computer, with the built-in Windows voice (offline, no key, no download). text is what to say (max 800 chars). play: false only writes the audio file without making sound. voice overrides the voice (see voice_list); rate is -10..10, 0 is normal. With voice 'roxy' you can also pass speed (0.5-2.0, default 0.85), pitch (semitones, -6..6, 0 means unchanged; the formants are kept so it still sounds like her), and the sampling knobs temperature (0.1-2, default 0.6) and top_k (1-50, default 10) — lower temperature is steadier, higher is more varied. Returns the file path, its length, and the sampling values actually used.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 800,
+            "description": "What to say out loud."
+          },
+          "voice": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Voice name (Microsoft Huihui Desktop), or 'roxy' for the GPT-SoVITS 洛琪希 voice."
+          },
+          "rate": {
+            "type": "number",
+            "description": "-10..10, 0 is normal speed."
+          },
+          "play": {
+            "type": "boolean",
+            "description": "Whether to actually make sound (default true)."
+          },
+          "speed": {
+            "type": "number",
+            "description": "Speaking speed 0.5-2.0 (default 0.85, only used for roxy)."
+          },
+          "pitch": {
+            "type": "number",
+            "description": "Pitch shift in semitones, -6..6 (0 = unchanged, only used for roxy)."
+          },
+          "temperature": {
+            "type": "number",
+            "description": "Sampling temperature 0.1-2 (default 0.6, only used for roxy). Higher = more varied."
+          },
+          "top_k": {
+            "type": "number",
+            "description": "Sampling top_k 1-50 (default 10, only used for roxy)."
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "tags": [
+        "speak"
+      ],
+      "summary": {
+        "zh": "在本机用 Windows 自带语音念一段话；洛琪希音色可变速、变调、调采样温度。",
+        "en": "Say a line out loud on this computer; with the roxy voice you can also shift speed, pitch and sampling."
+      }
+    },
+    {
+      "name": "voice_list",
+      "description": "List the voices this computer has for speaking. Read-only.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      },
+      "tags": [
+        "read"
+      ],
+      "summary": {
+        "zh": "列出本机可用音色，以及洛琪希服务起没起、权重切没切。",
+        "en": "List installed voices, plus whether the roxy service is up and its weights are loaded."
+      }
+    },
+    {
+      "name": "voice_transcribe",
+      "description": "Transcribe an audio file into text, locally (SenseVoice int8, offline). No key, no upload — the audio never leaves this computer. file is a path inside the companion workspace (for example the voice messages Telegram saved under workspace\\voice\\incoming). You get back the words, the language, and how long the audio was.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "Path of a wav/ogg/mp3 file inside the workspace; relative to the workspace is fine (voice/2026-11-01/003103.wav)."
+          }
+        },
+        "required": [
+          "file"
+        ]
+      },
+      "tags": [
+        "read"
+      ],
+      "summary": {
+        "zh": "把工作区里的音频转成文字（本地 SenseVoice，离线）。",
+        "en": "Transcribe an audio file inside the workspace into text, locally."
+      }
+    },
+    {
+      "name": "voice_pitch",
+      "description": "Measure the pitch of an audio file, locally (librosa pyin, offline, no key, no upload). file is a path inside the companion workspace — wav / ogg / mp3 / flac (for example the voice messages Telegram saved). You get one line per note: note name, when it starts, and how many cents off it is; then a summary with the range, how far it drifts, and whether it wanders off. Only the first 30 seconds are measured by default (maxSeconds up to 120); notes:false leaves the per-note lines out and gives just the summary.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "Path of an audio file inside the workspace; relative to the workspace is fine (voice/2026-11-01/003103.wav)."
+          },
+          "maxSeconds": {
+            "type": "number",
+            "description": "Only measure the first N seconds (default 30, up to 120)."
+          },
+          "maxNotes": {
+            "type": "number",
+            "description": "How many notes to list (default 24, up to 40)."
+          },
+          "notes": {
+            "type": "boolean",
+            "description": "false = summary only, no per-note lines."
+          },
+          "fmin": {
+            "type": "number",
+            "description": "Lowest pitch to look for, in Hz (default 65.4 = C2; for a male voice try 80)."
+          },
+          "fmax": {
+            "type": "number",
+            "description": "Highest pitch to look for, in Hz (default 2093 = C7)."
+          }
+        },
+        "required": [
+          "file"
+        ]
+      },
+      "tags": [
+        "read"
+      ],
+      "summary": {
+        "zh": "量一段音频的音高：每个音的音名+时间+音分，再给音域和跑调判断（本地 librosa）。",
+        "en": "Measure the pitch of an audio file: note name, time and cents per note, then the range and whether it drifts."
+      }
+    }
+  ],
+  "events": []
+}
